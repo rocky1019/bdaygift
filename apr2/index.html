@@ -1,397 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You 🌙</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>...</title>
 
-    <style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
-        :root {
-            --primary: #3f3f46;
-            --secondary: #71717a;
-            --bg-grad: linear-gradient(135deg, #0f0f12 0%, #1a1a22 100%);
-        }
+<style>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        body {
-            background: var(--bg-grad);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            color: #d4d4d8;
-        }
+body{
+    background:#000;
+    color:#fff;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Inter',sans-serif;
+}
 
-        .bubbles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
+h1{
+    font-size:18px;
+    font-weight:300;
+    opacity:0.5;
+    letter-spacing:1px;
+}
 
-        .bubble {
-            position: absolute;
-            bottom: -100px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 50%;
-            animation: float 10s infinite ease-in;
-        }
+@media(max-width:600px){
 
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
+    h1{
+        font-size:16px;
+    }
 
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
+}
 
-        .scene {
-            position: absolute;
-            width: 90%;
-            max-width: 450px;
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
-        }
-
-        .active {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .box {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 40px 30px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #f4f4f5;
-        }
-
-        .cursive {
-            font-family: 'Dancing Script', cursive;
-            font-size: 32px;
-            color: #d4d4d8;
-        }
-
-        p {
-            font-size: 15px;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            color: #a1a1aa;
-        }
-
-        button {
-            background: #27272a;
-            color: #f4f4f5;
-            border: 1px solid rgba(255,255,255,0.08);
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #3f3f46;
-            transform: translateY(-3px) scale(1.03);
-        }
-
-        .stat-grid {
-            display: grid;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.03);
-            padding: 15px;
-            border-radius: 15px;
-        }
-
-        .number {
-            font-size: 32px;
-            font-weight: 700;
-            color: #e4e4e7;
-            display: block;
-        }
-
-        .gift-container {
-            position: relative;
-            margin-top: 20px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-        }
-
-        .gift-container img {
-            width: 100%;
-            display: block;
-            transition: 0.5s;
-        }
-
-        .gift-container:hover img {
-            transform: scale(1.05);
-        }
-
-        #typing,
-        #msg {
-            white-space: pre-line;
-            min-height: 60px;
-        }
-
-        @media(max-width:600px){
-
-            .box{
-                padding:30px 22px;
-            }
-
-            h1{
-                font-size:21px;
-            }
-
-            p{
-                font-size:14px;
-            }
-
-            .cursive{
-                font-size:28px !important;
-            }
-
-        }
-
-    </style>
+</style>
 </head>
 
 <body>
 
-    <audio id="bdaySound">
-        <source src="bgsound.mp4" type="audio/mp4">
-    </audio>
-
-    <div class="bubbles" id="bubbles"></div>
-
-    <div class="scene active" id="s1">
-        <div class="box">
-            <h1 id="typing" class="cursive"></h1>
-            <button onclick="go(2)">Open this</button>
-        </div>
-    </div>
-
-    <div class="scene" id="s2">
-        <div class="box">
-
-            <h1>Just some facts.</h1>
-
-            <div class="stat-grid">
-
-                <div class="stat-card">
-                    <p>Times I ignored the distance</p>
-                    <span class="number" id="n1">0</span>
-                </div>
-
-                <div class="stat-card">
-                    <p>Times I waited for the old you</p>
-                    <span class="number" id="n2">0</span>
-                </div>
-
-                <div class="stat-card">
-                    <p>Things that changed</p>
-                    <span class="number">Too many</span>
-                </div>
-
-            </div>
-
-            <button onclick="go(3)">Next</button>
-
-        </div>
-    </div>
-
-    <div class="scene" id="s3">
-        <div class="box">
-            <p id="msg"></p>
-            <button onclick="go(4)">Continue</button>
-        </div>
-    </div>
-
-    <div class="scene" id="s4">
-        <div class="box">
-
-            <h1 class="cursive" style="font-size: 40px;">
-                Some things change quietly.
-            </h1>
-
-            <p>
-                I really like how
-you slowly became distant
-instead of just being honest with me.
-            </p>
-
-            <button onclick="go(5)">One last thing</button>
-
-        </div>
-    </div>
-
-    <div class="scene" id="s5">
-        <div class="box">
-
-            <p>
-                Thank you.
-            </p>
-
-            <div class="gift-container">
-               
-            </div>
-
-            <p style="margin-top:20px; font-size: 12px; opacity: 0.4;">
-                so much
-            </p>
-
-        </div>
-    </div>
-
-<script>
-
-    const bubbleContainer = document.getElementById('bubbles');
-
-    for (let i = 0; i < 15; i++) {
-
-        const b = document.createElement('div');
-
-        b.className = 'bubble';
-
-        const size = Math.random() * 50 + 10 + 'px';
-
-        b.style.width = size;
-        b.style.height = size;
-        b.style.left = Math.random() * 100 + '%';
-        b.style.animationDelay = Math.random() * 10 + 's';
-        b.style.animationDuration = Math.random() * 5 + 7 + 's';
-
-        bubbleContainer.appendChild(b);
-    }
-
-    function go(n) {
-
-        document.querySelectorAll(".scene")
-            .forEach(s => s.classList.remove("active"));
-
-        document.getElementById("s" + n)
-            .classList.add("active");
-
-        if (n === 2) animateNumbers();
-
-        if (n === 3) typeMessage();
-
-        if (n === 4) {
-
-            let audio = document.getElementById("bdaySound");
-
-            audio.currentTime = 0;
-
-            audio.play();
-        }
-    }
-
-    const introText =
-        "Funny how things change so quietly.";
-
-    let i = 0;
-
-    function typeIntro() {
-
-        if (i < introText.length) {
-
-            document.getElementById("typing")
-                .innerHTML += introText.charAt(i);
-
-            i++;
-
-            setTimeout(typeIntro, 60);
-        }
-    }
-
-    window.onload = typeIntro;
-
-    function animateNumbers() {
-
-        countUp("n1", 1542);
-
-        countUp("n2", 8920);
-    }
-
-    function countUp(id, target) {
-
-        let current = 0;
-
-        let inc = target / 100;
-
-        let timer = setInterval(() => {
-
-            current += inc;
-
-            if (current >= target) {
-
-                document.getElementById(id)
-                    .innerText = target.toLocaleString() + "+";
-
-                clearInterval(timer);
-
-            } else {
-
-                document.getElementById(id)
-                    .innerText = Math.floor(current).toLocaleString();
-            }
-
-        }, 20);
-    }
-
-    const msgText =
-        "Funny how the same person who once cared the most can slowly become distant enough to make you question everything.\n\nThank you for turning memories into lessons.";
-
-    let j = 0;
-
-    function typeMessage() {
-
-        if (j < msgText.length) {
-
-            document.getElementById("msg")
-                .innerHTML += msgText.charAt(j);
-
-            j++;
-
-            setTimeout(typeMessage, 40);
-        }
-    }
-
-</script>
+<h1>ok.</h1>
 
 </body>
 </html>
